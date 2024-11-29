@@ -43,7 +43,7 @@ int main(int argc, char *argv[]) {
 
     printf("\nTempo de execução: %.6f segundos\n", total_time);
 */
-    printf("%6f;\n", total_time);
+    printf("%6f\n", total_time);
     free(arr); // Libera a memória alocada para o array
 
     return 0;

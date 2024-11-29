@@ -1,53 +1,53 @@
 #!/bin/bash
 
-# Função para mostrar como usar o script
-usage() {
-    echo "Uso: $0 -l linguagem -a algoritmo -n numero_execucoes -t tamanho_entrada"
-    exit 1
-}
-
-# Variáveis iniciais
+# Variáveis
 linguagem=""
 algoritmo=""
 num_execucoes=0
 tamanho_entrada=0
+saida_tempo=""  # Variável para arquivo de saída
 
-# Captura dos argumentos
+# Argumentos
 while getopts "l:a:n:t:" opt; do
     case $opt in
         l) linguagem=$OPTARG ;;
         a) algoritmo=$OPTARG ;;
         n) num_execucoes=$OPTARG ;;
         t) tamanho_entrada=$OPTARG ;;
-        *) usage ;;
+        *) echo "Argumento não suportado" && exit 1 ;;
     esac
 done
 
-# Verificar se todos os parâmetros foram fornecidos
-if [ -z "$linguagem" ] || [ -z "$algoritmo" ] || [ -z "$num_execucoes" ] || [ -z "$tamanho_entrada" ]; then
-    usage
-fi
+# Nome do arquivo de saída
+saida_tempo="tempos_${linguagem}_${tamanho_entrada}_${algoritmo}.csv"
 
-# Função para executar o algoritmo em Python
+# Limpar ou criar o arquivo de saída
+echo "Tamanho_Entrada,Execucao,Tempo(s)" > $saida_tempo
+
+# Executar o algoritmo em Python
 executar_python() {
     for ((i = 1; i <= num_execucoes; i++)); do
-        echo "Execução $i: Python $algoritmo com entrada de tamanho $tamanho_entrada"
-        python3 "$algoritmo.py" "$tamanho_entrada"
+        echo "Executando Python $algoritmo - Execução $i..."
+        tempo=$(python3 "$algoritmo.py" "$tamanho_entrada") # Captura do tempo
+        echo "$tempo" # Exibe SOMENTE o tempo como saída
     done
 }
 
-# Função para compilar e executar o algoritmo em C
+# Compilar e executar o algoritmo em C
 executar_c() {
-    gcc -o "$algoritmo" "$algoritmo.c"
+    gcc -o "$algoritmo" "$algoritmo.c" || { echo "Erro ao compilar $algoritmo.c"; exit 1; }
     for ((i = 1; i <= num_execucoes; i++)); do
-        echo "Execução $i: C $algoritmo com entrada de tamanho $tamanho_entrada"
-        ./"$algoritmo" "$tamanho_entrada"
+        echo "Executando C $algoritmo - Execução $i..."
+        tempo=$(./"$algoritmo" "$tamanho_entrada") # Captura do tempo
+        echo "$tempo" # Exibe SOMENTE o tempo como saída
     done
 }
 
-# Chamada da função correspondente
+# Chamada da função
 case $linguagem in
     python) executar_python ;;
     c) executar_c ;;
     *) echo "Linguagem não suportada: $linguagem" && exit 1 ;;
 esac
+
+echo "Resultados armazenados em: $saida_tempo"

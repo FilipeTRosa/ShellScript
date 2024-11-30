@@ -7,16 +7,18 @@ if [ -z "$1" ]; then
 fi
 
 script_principal=$1 # Caminho para o script principal
-arquivo_saida="medias_execucoes.csv" # Arquivo de saída consolidado
 
-# Limpar ou criar o arquivo de saída
-echo "Linguagem,Algoritmo,Tamanho_Entrada,TempoTotal(s)" > $arquivo_saida
+
 
 # Parâmetros para execução
 linguagens=("python" "c")         # Linguagens para testar
 algoritmos=("mergesort" "bubblesort") # Algoritmos disponíveis
-tamanhos=(10 100 1000 10000 100000)       # Tamanhos de entrada
-num_execucoes=10                  # Número de execuções por tamanho
+tamanhos=(10 100 1000 10000 100000)       # Tamanhos deS entrada
+num_execucoes=10                 # Número de execuções por tamanho
+
+arquivo_saida="medias_execucoes_${num_execucoes}.csv" # Arquivo de saída consolidado
+# Limpar ou criar o arquivo de saída
+echo "Linguagem;Algoritmo;Tamanho_Entrada;TempoTotal(s)" > $arquivo_saida
 
 # Iterar sobre linguagens, algoritmos e tamanhos
 for linguagem in "${linguagens[@]}"; do
@@ -26,11 +28,11 @@ for linguagem in "${linguagens[@]}"; do
 
             # Capturar o tempo retornado pelo script principal
             tempo=$(bash "$script_principal" -l "$linguagem" -a "$algoritmo" -n "$num_execucoes" -t "$tamanho")
-            
+           
             #media=$(echo "$tempo / $num_execucoes" | bc) ## FICA ZERADO.....
 			
             # Salvar a média no arquivo consolidado
-            echo "$linguagem,$algoritmo,$tamanho,$tempo" >> $arquivo_saida
+            echo "$linguagem;$algoritmo;$tamanho;$tempo" >> $arquivo_saida
         done
     done
 done

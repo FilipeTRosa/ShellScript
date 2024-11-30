@@ -5,14 +5,27 @@ import time;
 import string;
 import os.path ## para verificar se existe o arquivo
 
-def bubbleSort(alist):
-    for passnum in range(len(alist)-1,0,-1):
-        for i in range(passnum):
-            if alist[i]>alist[i+1]:
-                temp = alist[i]
-                alist[i] = alist[i+1]
-                alist[i+1] = temp
-                
+def mergesort(lista):
+    tamanho_da_lista = len(lista) - 1
+
+    for posicao_atual in range(0, tamanho_da_lista):
+        posicao_menor = posicao_atual
+        menor_nome = lista[posicao_menor]
+
+        for posicao_busca in range(posicao_atual, tamanho_da_lista):
+            nome_busca = lista[posicao_busca + 1]
+
+            if menor_nome > nome_busca:
+                menor_nome = nome_busca
+                posicao_menor = posicao_busca + 1
+
+        if posicao_menor != posicao_atual:
+            menor_nome = lista[posicao_menor]
+            lista[posicao_menor] = lista[posicao_atual]
+            lista[posicao_atual] = menor_nome
+
+    return lista
+
 #------------------------Main
 parameters = [];
 for param in sys.argv:
@@ -32,7 +45,7 @@ for i in range (valor):
 	alist.append(random.randrange(0,valor))	
 	i=i+1
 tempo_inicial = time.time() # em segundos
-bubbleSort(alist)
+mergesort(alist)
 tempo_final=time.time()# em segundos
-print (str(valor)+";"+str(tempo_final - tempo_inicial)+";")
+print ((tempo_final - tempo_inicial))
 #print(alist)

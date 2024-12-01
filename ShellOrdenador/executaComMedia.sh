@@ -13,7 +13,7 @@ script_principal=$1 # Caminho para o script principal
 # Parâmetros para execução
 linguagens=("python" "c")         # Linguagens para testar
 algoritmos=("mergesort" "bubblesort") # Algoritmos disponíveis
-tamanhos=(10 100 1000 10000 100000)       # Tamanhos deS entrada
+tamanhos=(10 100 1000)       # Tamanhos deS entrada
 num_execucoes=10                 # Número de execuções por tamanho
 
 arquivo_saida="medias_execucoes_${num_execucoes}.csv" # Arquivo de saída consolidado
@@ -28,7 +28,7 @@ for linguagem in "${linguagens[@]}"; do
 
             # Capturar o tempo retornado pelo script principal
             tempo=$(bash "$script_principal" -l "$linguagem" -a "$algoritmo" -n "$num_execucoes" -t "$tamanho")
-           
+            
             #media=$(echo "$tempo / $num_execucoes" | bc) ## FICA ZERADO.....
 			
             # Salvar a média no arquivo consolidado

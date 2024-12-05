@@ -1,0 +1,6 @@
+Linguagem;Algoritmo;Tamanho_Entrada;TempoTotal(s)
+python;bubblesort;10;.00000715255737300000
+python;bubblesort;100;.00041027069091796875
+python;bubblesort;1000;.04457423686981201220
+python;bubblesort;10000;4.77177221775054935000
+python;bubblesort;100000;506.43119249343871900000

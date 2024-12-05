@@ -1,0 +1,6 @@
+Linguagem;Algoritmo;Tamanho_Entrada;TempoTotal(s)
+python;mergesort;10;.00000610351562530000
+python;mergesort;100;.00021867752075195312
+python;mergesort;1000;.02473008632659912110
+python;mergesort;10000;2.43680508136749267000
+python;mergesort;100000;267.43952438831329800000

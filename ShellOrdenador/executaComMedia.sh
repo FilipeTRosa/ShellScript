@@ -13,7 +13,7 @@ script_principal=$1 # Caminho para o script principal
 # Parâmetros para execução
 linguagens=("python" "c")         # Linguagens para testar
 algoritmos=("mergesort" "bubblesort") # Algoritmos disponíveis
-tamanhos=(10 100 1000)       # Tamanhos deS entrada
+tamanhos=(10 100 1000 10000 100000)       # Tamanhos deS entrada
 num_execucoes=10                 # Número de execuções por tamanho
 
 arquivo_saida="medias_execucoes_${num_execucoes}.csv" # Arquivo de saída consolidado
@@ -23,6 +23,12 @@ echo "Linguagem;Algoritmo;Tamanho_Entrada;TempoTotal(s)" > $arquivo_saida
 # Iterar sobre linguagens, algoritmos e tamanhos
 for linguagem in "${linguagens[@]}"; do
     for algoritmo in "${algoritmos[@]}"; do
+        arquivo_saida2="medias_execucoes_${linguagem}_${algoritmo}_${num_execucoes}.csv" # Arquivo de saída consolidado
+    	# Cria o arquivo e escreve o cabeçalho apenas uma vez
+        if [[ ! -f "$arquivo_saida2" ]]; then
+            echo "Linguagem;Algoritmo;Tamanho_Entrada;TempoTotal(s)" > "$arquivo_saida2"
+        fi
+    	
         for tamanho in "${tamanhos[@]}"; do
             echo "Executando $algoritmo em $linguagem para tamanho $tamanho ($num_execucoes execuções)..."
 
@@ -33,6 +39,7 @@ for linguagem in "${linguagens[@]}"; do
 			
             # Salvar a média no arquivo consolidado
             echo "$linguagem;$algoritmo;$tamanho;$tempo" >> $arquivo_saida
+            echo "$linguagem;$algoritmo;$tamanho;$tempo" >> $arquivo_saida2
         done
     done
 done
